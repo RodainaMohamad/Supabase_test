@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Consts/Text.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'router.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Supabase.initialize(url: TextNames().url, anonKey: TextNames().key);
+
+  await dotenv.load(fileName: '.env');
+
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+  );
+
   runApp(const MyApp());
 }
 
